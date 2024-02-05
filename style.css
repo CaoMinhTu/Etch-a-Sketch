@@ -9,8 +9,10 @@ body {
 }
 
 #grid {
-    height: 512px;
-    width: 512px;
+    /* height: 512px;
+    width: 512px; */
     background-color: silver;
     margin-top: 20px;
+    display: flex;
+    flex-direction: row;
 }
