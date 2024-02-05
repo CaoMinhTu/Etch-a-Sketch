@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#grid {
+    height: 512px;
+    width: 512px;
+    background-color: silver;
+    margin-top: 20px;
+}
