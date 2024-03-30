@@ -1,6 +1,7 @@
 const GRID_DIMENSION = 512; // grid width and height in pixels
 const GRID_COLOR = "#505050";
 const CELL_BORDER_WIDTH = 1; // cell border width in pixels
+const CELL_BACKGROUND_COLOR = 'white';
 
 // set grid properties
 let grid = document.querySelector('#grid');
@@ -39,7 +40,7 @@ function createCells(cellsPerSide) {
         cell.style.height = cellSize + 'px';
         cell.style.borderWidth = CELL_BORDER_WIDTH + 'px';
         cell.style.borderColor = GRID_COLOR;
-        cell.style.backgroundColor = 'white';
+        cell.style.backgroundColor = CELL_BACKGROUND_COLOR;
 
         // change cell background on mouse enter
         cell.addEventListener("mouseenter", (e) => {
@@ -50,8 +51,18 @@ function createCells(cellsPerSide) {
     }
 }
 
-let cellsPerSide = 10;
+function clearGrid() {
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+        cell.style.backgroundColor = CELL_BACKGROUND_COLOR;
+    });
+}
+
+let cellsPerSide = 16;
 
 setGridBordersWidth(GRID_DIMENSION, cellsPerSide);
 
 createCells(cellsPerSide);
+
+// add function to Clear button
+document.querySelector("#clear").addEventListener("click", clearGrid);
