@@ -10,6 +10,8 @@ grid.style.width = GRID_DIMENSION + "px";
 grid.style.borderColor = GRID_COLOR;
 grid.style.borderStyle = "solid";
 
+let cellsPerSide = 16; // variable to store grid size
+
 function setGridBordersWidth(gridDimension, cellsPerSide) {
     // calculate left over width that will be distributed to borders
     let leftOverWidth = gridDimension % cellsPerSide;
@@ -58,11 +60,25 @@ function clearGrid() {
     });
 }
 
-let cellsPerSide = 16;
+// function of Cells-per-side input range - on value change:
+//      - change number displayed on label
+//      - create new grid with new size
+let inpCellsPerSide = document.querySelector("#cells-per-side");
+inpCellsPerSide.addEventListener("input", (e) => {
 
-setGridBordersWidth(GRID_DIMENSION, cellsPerSide);
+    cellsPerSide = parseInt(e.target.value);
 
-createCells(cellsPerSide);
+    // change number displayed on label
+    document.querySelector("#lbl-cells-per-side").textContent = cellsPerSide;
+
+    // change grid size
+    document.querySelectorAll("#grid div").forEach((cell) => cell.remove());
+    setGridBordersWidth(GRID_DIMENSION, cellsPerSide);
+    createCells(cellsPerSide);
+});
+
+// dispatch input event to initialize grid
+document.querySelector("#cells-per-side").dispatchEvent(new Event("input"));
 
 // add function to Clear button
 document.querySelector("#clear").addEventListener("click", clearGrid);
