@@ -40,6 +40,12 @@ function createCells(cellsPerSide) {
         cell.style.borderWidth = CELL_BORDER_WIDTH + 'px';
         cell.style.borderColor = GRID_COLOR;
         cell.style.backgroundColor = 'white';
+
+        // change cell background on mouse enter
+        cell.addEventListener("mouseenter", (e) => {
+            e.target.style.backgroundColor = 'black';
+        });
+
         grid.appendChild(cell);
     }
 }
