@@ -50,8 +50,7 @@ function createCells(cellsPerSide) {
         cell.className = 'cell';
         cell.style.width = cellSize + 'px';
         cell.style.height = cellSize + 'px';
-        cell.style.borderWidth = CELL_BORDER_WIDTH + 'px';
-        cell.style.borderColor = GRID_COLOR;
+        cell.style.borderStyle = 'none';
         cell.style.backgroundColor = CELL_BACKGROUND_COLOR;
 
         // change cell background on mouse enter
@@ -70,8 +69,6 @@ function createCells(cellsPerSide) {
                     break;
                 case INK_COLOR_MULTICOLOR:
                     e.target.style.backgroundColor = `rgb(${randomInteger(0, 255)}, ${randomInteger(0, 255)}, ${randomInteger(0, 255)})`;
-                    // e.target.style.backgroundColor = rgb(randomInteger(0, 255), randomInteger(0, 255), randomInteger(0, 255));
-                    // e.target.style.backgroundColor = 'rgb(255,0,0)';
                     break;
             }
         });
