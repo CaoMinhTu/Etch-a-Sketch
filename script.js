@@ -2,6 +2,9 @@ const GRID_DIMENSION = 512; // grid width and height in pixels
 const GRID_COLOR = "#505050";
 const CELL_BORDER_WIDTH = 1; // cell border width in pixels
 const CELL_BACKGROUND_COLOR = 'white';
+const INK_COLOR_BLACK = 1;
+const INK_COLOR_DARKEN = 2;
+const INK_COLOR_MULTICOLOR = 3;
 
 // set grid properties
 let grid = document.querySelector('#grid');
@@ -12,10 +15,18 @@ grid.style.borderStyle = "solid";
 
 let cellsPerSide = 16; // variable to store grid size
 
+// set default ink color to black
+let inkColor = INK_COLOR_BLACK;
+document.querySelector("input#ink-color-black").checked = true;
+
+// Returns an integer random number between min (included) and max (included)
+function randomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function setGridBordersWidth(gridDimension, cellsPerSide) {
     // calculate left over width that will be distributed to borders
     let leftOverWidth = gridDimension % cellsPerSide;
-    console.log('leftOverWidth: ', leftOverWidth);
 
     let grid = document.querySelector('#grid');
 
@@ -32,7 +43,6 @@ function setGridBordersWidth(gridDimension, cellsPerSide) {
 
 function createCells(cellsPerSide) {
     const cellSize = Math.floor(GRID_DIMENSION / cellsPerSide); // cell size in pixels
-    console.log('cellSize: ', cellSize);
 
     let grid = document.querySelector('#grid');
     for (let i = 0; i < cellsPerSide * cellsPerSide; i++) {
@@ -46,7 +56,24 @@ function createCells(cellsPerSide) {
 
         // change cell background on mouse enter
         cell.addEventListener("mouseenter", (e) => {
-            e.target.style.backgroundColor = 'black';
+            switch(inkColor) {
+                case INK_COLOR_BLACK:
+                    e.target.style.backgroundColor = 'black';
+                    break;
+                case INK_COLOR_DARKEN:
+                    if (e.target.style.backgroundColor == CELL_BACKGROUND_COLOR) {
+                        e.target.style.backgroundColor = 'black';
+                        e.target.style.opacity = 0.1.toString();
+                    } else if (e.target.style.backgroundColor == 'black' && e.target.style.opacity < 1) {
+                        e.target.style.opacity = (parseFloat(e.target.style.opacity) + 0.1).toString();
+                    }
+                    break;
+                case INK_COLOR_MULTICOLOR:
+                    e.target.style.backgroundColor = `rgb(${randomInteger(0, 255)}, ${randomInteger(0, 255)}, ${randomInteger(0, 255)})`;
+                    // e.target.style.backgroundColor = rgb(randomInteger(0, 255), randomInteger(0, 255), randomInteger(0, 255));
+                    // e.target.style.backgroundColor = 'rgb(255,0,0)';
+                    break;
+            }
         });
 
         grid.appendChild(cell);
@@ -57,6 +84,7 @@ function clearGrid() {
     const cells = document.querySelectorAll(".cell");
     cells.forEach((cell) => {
         cell.style.backgroundColor = CELL_BACKGROUND_COLOR;
+        cell.style.opacity = 1;
     });
 }
 
@@ -82,3 +110,18 @@ document.querySelector("#cells-per-side").dispatchEvent(new Event("input"));
 
 // add function to Clear button
 document.querySelector("#clear").addEventListener("click", clearGrid);
+
+// add function to radio buttons
+document.querySelector("input#ink-color-black").addEventListener("change", () => {
+    clearGrid();
+    inkColor = INK_COLOR_BLACK;
+});
+document.querySelector("input#ink-color-darken").addEventListener("change", () => {
+    clearGrid();
+    inkColor = INK_COLOR_DARKEN;
+});
+document.querySelector("input#ink-color-multicolor").addEventListener("change", () => {
+    clearGrid();
+    inkColor = INK_COLOR_MULTICOLOR;
+});
+
