@@ -34,3 +34,7 @@ body {
     border-style: solid;
     flex: 0 0 auto;
 }
+
+.footer {
+    margin-top: 20px;
+}
